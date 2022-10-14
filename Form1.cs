@@ -6,7 +6,6 @@ namespace Capslock_to_KorEng
 {
 	public partial class Form1 : Form
 	{
-		private static Int32 WM_KEYDOWN = 0x100;
 		private readonly uint KEYDOWN = 0x1;
 		private readonly uint KEYUP = 0x2;
 
@@ -18,19 +17,10 @@ namespace Capslock_to_KorEng
 
 		// Send Key
 		[return: MarshalAs(UnmanagedType.Bool)]
-		[DllImport("user32.dll", SetLastError = true)]
-		static extern bool PostMessage(IntPtr hWnd, int wMsg, Keys wParam, int lParam);
 		[DllImport("user32.dll")]
 		static extern void keybd_event(byte bVk, byte bScan, uint dwFlags, UIntPtr dwExtraInfo);
 
-		// IME
-		[DllImport("imm32.dll")]
-		public static extern IntPtr ImmGetContext(IntPtr hWnd);
-		[DllImport("imm32.dll")]
-		public static extern Boolean ImmSetConversoinStatus(IntPtr hIMC, Int32 fdwConversion, Int32 fdwSentence);
-
 		const int myHotKeyID = 666;
-		private bool onProgress = false;
 
 		private BackgroundWorker worker;
 
@@ -50,9 +40,8 @@ namespace Capslock_to_KorEng
 
 		protected override void WndProc(ref Message m)
 		{
-			if (m.Msg == 0x0312 && m.WParam.ToInt32() == myHotKeyID && !onProgress)
+			if (m.Msg == 0x0312 && m.WParam.ToInt32() == myHotKeyID)
 			{
-				onProgress = true;
 				Thread.Sleep(50);
 
 				keybd_event(byte.Parse(((int)Keys.KanaMode).ToString()), 0x45, KEYDOWN, UIntPtr.Zero);
@@ -60,14 +49,8 @@ namespace Capslock_to_KorEng
 				Thread.Sleep(50);
 
 				keybd_event(byte.Parse(((int)Keys.KanaMode).ToString()), 0x45, KEYUP, UIntPtr.Zero);
-				onProgress = false;
 			}
 			base.WndProc(ref m);
-		}
-
-		protected static void SendKey(IntPtr hWnd, Keys key)
-		{
-			PostMessage(hWnd, WM_KEYDOWN, key, 0);
 		}
 	}
 }
