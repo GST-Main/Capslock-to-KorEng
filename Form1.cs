@@ -30,6 +30,7 @@ namespace Capslock_to_KorEng
 		public static extern Boolean ImmSetConversoinStatus(IntPtr hIMC, Int32 fdwConversion, Int32 fdwSentence);
 
 		const int myHotKeyID = 666;
+		private bool onProgress = false;
 
 		private BackgroundWorker worker;
 
@@ -49,13 +50,17 @@ namespace Capslock_to_KorEng
 
 		protected override void WndProc(ref Message m)
 		{
-			if (m.Msg == 0x0312 && m.WParam.ToInt32() == myHotKeyID)
+			if (m.Msg == 0x0312 && m.WParam.ToInt32() == myHotKeyID && !onProgress)
 			{
+				onProgress = true;
+				Thread.Sleep(50);
+
 				keybd_event(byte.Parse(((int)Keys.KanaMode).ToString()), 0x45, KEYDOWN, UIntPtr.Zero);
 
-				Thread.Sleep(100);
+				Thread.Sleep(50);
 
 				keybd_event(byte.Parse(((int)Keys.KanaMode).ToString()), 0x45, KEYUP, UIntPtr.Zero);
+				onProgress = false;
 			}
 			base.WndProc(ref m);
 		}
