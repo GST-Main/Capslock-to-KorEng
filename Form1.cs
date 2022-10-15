@@ -10,6 +10,7 @@ namespace Capslock_to_KorEng
 	public partial class Form1 : Form
 	{
 		private GlobalKeyboardHook _globalKeyboardHook;
+		private bool isLShiftPressed = false;
 
 		// Hotkeys
 		[DllImport("user32.dll")]
@@ -43,6 +44,7 @@ namespace Capslock_to_KorEng
 		{
 			_globalKeyboardHook = new GlobalKeyboardHook();
 			_globalKeyboardHook.KeyboardPressed += OnKeyPressed;
+			_globalKeyboardHook.KeyboardPressed += SetLShiftStatus;
 		}
 
 		private void OnKeyPressed(object sender, GlobalKeyboardHookEventArgs e)
@@ -53,14 +55,30 @@ namespace Capslock_to_KorEng
 
 			if (e.KeyboardData.VirtualCode != GlobalKeyboardHook.VKCapslock)
 				return;
-			if (e.KeyboardState == GlobalKeyboardHook.KeyboardState.KeyDown && e.KeyboardData.VirtualCode == GlobalKeyboardHook.LShift)
+			else if (e.KeyboardState == GlobalKeyboardHook.KeyboardState.KeyDown && isLShiftPressed)
 			{
 				return;
 			}
-			if (e.KeyboardState == GlobalKeyboardHook.KeyboardState.KeyDown)
+			else if (e.KeyboardState == GlobalKeyboardHook.KeyboardState.KeyDown)
 			{
 				e.Handled = true;
 			}
+		}
+
+		private void SetLShiftStatus(object sender, GlobalKeyboardHookEventArgs e)
+		{
+			if (e.KeyboardData.VirtualCode != GlobalKeyboardHook.LShift)
+				return;
+			else if (e.KeyboardState == GlobalKeyboardHook.KeyboardState.KeyDown)
+			{
+				isLShiftPressed = true;
+			}
+			else if (e.KeyboardState == GlobalKeyboardHook.KeyboardState.KeyUp)
+			{
+				isLShiftPressed = false;
+			}
+
+			Debug.WriteLine(isLShiftPressed.ToString());
 		}
 	}
 
