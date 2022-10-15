@@ -96,5 +96,10 @@ namespace Capslock_to_KorEng
 			else
 				toolStripMenuItem_RunPause.Text = "Pause";
 		}
+
+		private void Form1_Shown(object sender, EventArgs e)
+		{
+			Hide();
+		}
 	}
 }

@@ -41,7 +41,7 @@
 			// 
 			this.notifyIcon.ContextMenuStrip = this.contextMenuStrip_Tray;
 			this.notifyIcon.Icon = ((System.Drawing.Icon)(resources.GetObject("notifyIcon.Icon")));
-			this.notifyIcon.Text = "notifyIcon1";
+			this.notifyIcon.Text = "CapsLock To KorEng";
 			this.notifyIcon.Visible = true;
 			// 
 			// contextMenuStrip_Tray
@@ -50,19 +50,19 @@
             this.toolStripMenuItem_RunPause,
             this.toolStripMenuItem_Quit});
 			this.contextMenuStrip_Tray.Name = "contextMenuStrip1";
-			this.contextMenuStrip_Tray.Size = new System.Drawing.Size(181, 70);
+			this.contextMenuStrip_Tray.Size = new System.Drawing.Size(106, 48);
 			// 
 			// toolStripMenuItem_RunPause
 			// 
 			this.toolStripMenuItem_RunPause.Name = "toolStripMenuItem_RunPause";
-			this.toolStripMenuItem_RunPause.Size = new System.Drawing.Size(180, 22);
+			this.toolStripMenuItem_RunPause.Size = new System.Drawing.Size(105, 22);
 			this.toolStripMenuItem_RunPause.Text = "Pause";
 			this.toolStripMenuItem_RunPause.Click += new System.EventHandler(this.toolStripMenuItem_RunPause_Click);
 			// 
 			// toolStripMenuItem_Quit
 			// 
 			this.toolStripMenuItem_Quit.Name = "toolStripMenuItem_Quit";
-			this.toolStripMenuItem_Quit.Size = new System.Drawing.Size(180, 22);
+			this.toolStripMenuItem_Quit.Size = new System.Drawing.Size(105, 22);
 			this.toolStripMenuItem_Quit.Text = "Quit";
 			this.toolStripMenuItem_Quit.Click += new System.EventHandler(this.toolStripMenuItem_Quit_Click);
 			// 
@@ -72,11 +72,13 @@
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.ClientSize = new System.Drawing.Size(244, 141);
 			this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
+			this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
 			this.MaximizeBox = false;
 			this.MinimizeBox = false;
 			this.Name = "Form1";
 			this.Text = "Capslock To KorEng";
 			this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.Form1_FormClosing);
+			this.Shown += new System.EventHandler(this.Form1_Shown);
 			this.contextMenuStrip_Tray.ResumeLayout(false);
 			this.ResumeLayout(false);
 
