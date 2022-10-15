@@ -14,6 +14,9 @@ namespace Capslock_to_KorEng
 		private const int VKLShift = 0xA0;
 		private const int VKCapslock = 0x14;
 
+		private const uint WM_KEYDOWN = 0x1;
+		private const uint WM_KEYUP = 0x2;
+
 		private bool isLShiftPressed = false;
 
 		// Hotkeys
@@ -66,6 +69,10 @@ namespace Capslock_to_KorEng
 			else if (e.KeyboardState == GlobalKeyboardHook.KeyboardState.KeyDown)
 			{
 				e.Handled = true;
+
+				keybd_event(byte.Parse(((int)Keys.KanaMode).ToString()), 0x45, WM_KEYDOWN, UIntPtr.Zero);
+				Thread.Sleep(50);
+				keybd_event(byte.Parse(((int)Keys.KanaMode).ToString()), 0x45, WM_KEYUP, UIntPtr.Zero);
 			}
 		}
 
