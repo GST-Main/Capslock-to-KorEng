@@ -9,6 +9,7 @@ namespace Capslock_to_KorEng
 {
 	public partial class Form1 : Form
 	{
+		private bool isPaused = false;
 		private GlobalKeyboardHook _globalKeyboardHook;
 
 		private const int VKLShift = 0xA0;
@@ -56,24 +57,28 @@ namespace Capslock_to_KorEng
 
 		private void OnKeyPressed(object sender, GlobalKeyboardHookEventArgs e)
 		{
-			Debug.WriteLine(e.KeyboardData.VirtualCode);
-			Debug.WriteLine(e.KeyboardData.Flags);
-			Debug.WriteLine(e.KeyboardState);
-
-			if (e.KeyboardData.VirtualCode != VKCapslock)
-				return;
-			else if (e.KeyboardState == GlobalKeyboardHook.KeyboardState.KeyDown && isLShiftPressed)
+			if (!isPaused)
 			{
-				return;
-			}
-			else if (e.KeyboardState == GlobalKeyboardHook.KeyboardState.KeyDown)
-			{
-				e.Handled = true;
+				Debug.WriteLine(e.KeyboardData.VirtualCode);
+				Debug.WriteLine(e.KeyboardData.Flags);
+				Debug.WriteLine(e.KeyboardState);
 
-				keybd_event(byte.Parse(((int)Keys.KanaMode).ToString()), 0x45, WM_KEYDOWN, UIntPtr.Zero);
-				Thread.Sleep(50);
-				keybd_event(byte.Parse(((int)Keys.KanaMode).ToString()), 0x45, WM_KEYUP, UIntPtr.Zero);
+				if (e.KeyboardData.VirtualCode != VKCapslock)
+					return;
+				else if (e.KeyboardState == GlobalKeyboardHook.KeyboardState.KeyDown && isLShiftPressed)
+				{
+					return;
+				}
+				else if (e.KeyboardState == GlobalKeyboardHook.KeyboardState.KeyDown)
+				{
+					e.Handled = true;
+
+					keybd_event(byte.Parse(((int)Keys.KanaMode).ToString()), 0x45, WM_KEYDOWN, UIntPtr.Zero);
+					Thread.Sleep(50);
+					keybd_event(byte.Parse(((int)Keys.KanaMode).ToString()), 0x45, WM_KEYUP, UIntPtr.Zero);
+				}
 			}
+
 		}
 
 		private void SetLShiftStatus(object sender, GlobalKeyboardHookEventArgs e)
@@ -88,6 +93,27 @@ namespace Capslock_to_KorEng
 			{
 				isLShiftPressed = false;
 			}
+		}
+
+		private void Form1_FormClosing(object sender, FormClosingEventArgs e)
+		{
+			e.Cancel = true;
+			Hide();
+			notifyIcon.Visible = true;
+		}
+
+		private void toolStripMenuItem_Quit_Click(object sender, EventArgs e)
+		{
+			Environment.Exit(0);
+		}
+
+		private void toolStripMenuItem_RunPause_Click(object sender, EventArgs e)
+		{
+			isPaused = !isPaused;
+			if (isPaused)
+				toolStripMenuItem_RunPause.Text = "Run";
+			else
+				toolStripMenuItem_RunPause.Text = "Pause";
 		}
 	}
 }
