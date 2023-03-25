@@ -28,60 +28,66 @@
 		/// </summary>
 		private void InitializeComponent()
 		{
-			this.components = new System.ComponentModel.Container();
+			components = new System.ComponentModel.Container();
 			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
-			this.notifyIcon = new System.Windows.Forms.NotifyIcon(this.components);
-			this.contextMenuStrip_Tray = new System.Windows.Forms.ContextMenuStrip(this.components);
-			this.toolStripMenuItem_RunPause = new System.Windows.Forms.ToolStripMenuItem();
-			this.toolStripMenuItem_Quit = new System.Windows.Forms.ToolStripMenuItem();
-			this.contextMenuStrip_Tray.SuspendLayout();
-			this.SuspendLayout();
+			notifyIcon = new NotifyIcon(components);
+			contextMenuStrip_Tray = new ContextMenuStrip(components);
+			toolStripMenuItem_RunPause = new ToolStripMenuItem();
+			toolStripMenuItem_Quit = new ToolStripMenuItem();
+			toolStripMenuItem_LaunchOnStartup = new ToolStripMenuItem();
+			contextMenuStrip_Tray.SuspendLayout();
+			SuspendLayout();
 			// 
 			// notifyIcon
 			// 
-			this.notifyIcon.ContextMenuStrip = this.contextMenuStrip_Tray;
-			this.notifyIcon.Icon = ((System.Drawing.Icon)(resources.GetObject("notifyIcon.Icon")));
-			this.notifyIcon.Text = "CapsLock To KorEng";
-			this.notifyIcon.Visible = true;
+			notifyIcon.ContextMenuStrip = contextMenuStrip_Tray;
+			notifyIcon.Icon = (Icon)resources.GetObject("notifyIcon.Icon");
+			notifyIcon.Text = "CapsLock To KorEng";
+			notifyIcon.Visible = true;
 			// 
 			// contextMenuStrip_Tray
 			// 
-			this.contextMenuStrip_Tray.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.toolStripMenuItem_RunPause,
-            this.toolStripMenuItem_Quit});
-			this.contextMenuStrip_Tray.Name = "contextMenuStrip1";
-			this.contextMenuStrip_Tray.Size = new System.Drawing.Size(106, 48);
+			contextMenuStrip_Tray.Items.AddRange(new ToolStripItem[] { toolStripMenuItem_LaunchOnStartup, toolStripMenuItem_RunPause, toolStripMenuItem_Quit });
+			contextMenuStrip_Tray.Name = "contextMenuStrip1";
+			contextMenuStrip_Tray.Size = new Size(181, 92);
 			// 
 			// toolStripMenuItem_RunPause
 			// 
-			this.toolStripMenuItem_RunPause.Name = "toolStripMenuItem_RunPause";
-			this.toolStripMenuItem_RunPause.Size = new System.Drawing.Size(105, 22);
-			this.toolStripMenuItem_RunPause.Text = "Pause";
-			this.toolStripMenuItem_RunPause.Click += new System.EventHandler(this.toolStripMenuItem_RunPause_Click);
+			toolStripMenuItem_RunPause.Name = "toolStripMenuItem_RunPause";
+			toolStripMenuItem_RunPause.Size = new Size(180, 22);
+			toolStripMenuItem_RunPause.Text = "Pause";
+			toolStripMenuItem_RunPause.Click += toolStripMenuItem_RunPause_Click;
 			// 
 			// toolStripMenuItem_Quit
 			// 
-			this.toolStripMenuItem_Quit.Name = "toolStripMenuItem_Quit";
-			this.toolStripMenuItem_Quit.Size = new System.Drawing.Size(105, 22);
-			this.toolStripMenuItem_Quit.Text = "Quit";
-			this.toolStripMenuItem_Quit.Click += new System.EventHandler(this.toolStripMenuItem_Quit_Click);
+			toolStripMenuItem_Quit.Name = "toolStripMenuItem_Quit";
+			toolStripMenuItem_Quit.Size = new Size(180, 22);
+			toolStripMenuItem_Quit.Text = "Quit";
+			toolStripMenuItem_Quit.Click += toolStripMenuItem_Quit_Click;
+			// 
+			// toolStripMenuItem_LaunchOnStartup
+			// 
+			toolStripMenuItem_LaunchOnStartup.Name = "toolStripMenuItem_LaunchOnStartup";
+			toolStripMenuItem_LaunchOnStartup.Size = new Size(180, 22);
+			toolStripMenuItem_LaunchOnStartup.Text = "Launch on Startup";
+			toolStripMenuItem_LaunchOnStartup.Click += toolStripMenuItem_LaunchOnStartup_Click;
 			// 
 			// Form1
 			// 
-			this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
-			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-			this.ClientSize = new System.Drawing.Size(244, 141);
-			this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
-			this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
-			this.MaximizeBox = false;
-			this.MinimizeBox = false;
-			this.Name = "Form1";
-			this.Text = "Capslock To KorEng";
-			this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.Form1_FormClosing);
-			this.Shown += new System.EventHandler(this.Form1_Shown);
-			this.contextMenuStrip_Tray.ResumeLayout(false);
-			this.ResumeLayout(false);
-
+			AutoScaleDimensions = new SizeF(7F, 15F);
+			AutoScaleMode = AutoScaleMode.Font;
+			ClientSize = new Size(244, 141);
+			FormBorderStyle = FormBorderStyle.FixedSingle;
+			Icon = (Icon)resources.GetObject("$this.Icon");
+			MaximizeBox = false;
+			MinimizeBox = false;
+			Name = "Form1";
+			Text = "Capslock To KorEng";
+			FormClosing += Form1_FormClosing;
+			Load += Form1_Load;
+			Shown += Form1_Shown;
+			contextMenuStrip_Tray.ResumeLayout(false);
+			ResumeLayout(false);
 		}
 
 		#endregion
@@ -90,5 +96,6 @@
 		private ContextMenuStrip contextMenuStrip_Tray;
 		private ToolStripMenuItem toolStripMenuItem_RunPause;
 		private ToolStripMenuItem toolStripMenuItem_Quit;
+		private ToolStripMenuItem toolStripMenuItem_LaunchOnStartup;
 	}
 }

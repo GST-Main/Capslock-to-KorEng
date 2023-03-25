@@ -1,3 +1,4 @@
+using Microsoft.Win32;
 using System;
 using System.Diagnostics;
 using System.Runtime.InteropServices;
@@ -18,6 +19,7 @@ namespace Capslock_to_KorEng
 		private const uint WM_KEYUP = 0x2;
 
 		private bool isLShiftPressed = false;
+		private bool launchOnStartup;
 
 		// Send Key
 		[return: MarshalAs(UnmanagedType.Bool)]
@@ -28,6 +30,10 @@ namespace Capslock_to_KorEng
 		{
 			InitializeComponent();
 			SetupKeyboardHooks();
+			launchOnStartup = GetStartupLaunch();
+			toolStripMenuItem_LaunchOnStartup.Checked = launchOnStartup;
+			if (launchOnStartup)
+				UpdateStartupLaunchPath();
 		}
 
 		public void SetupKeyboardHooks()
@@ -100,6 +106,52 @@ namespace Capslock_to_KorEng
 		private void Form1_Shown(object sender, EventArgs e)
 		{
 			Hide();
+		}
+
+		private void SetStartupLaunch(bool launchOnStartup)
+		{
+			RegistryKey? rk = Registry.CurrentUser.OpenSubKey("SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Run", true);
+
+			if (launchOnStartup)
+				rk?.SetValue(Application.ProductName, AppDomain.CurrentDomain.BaseDirectory);
+			else
+				rk?.DeleteValue(Application.ProductName, throwOnMissingValue: false);
+		}
+
+		private bool GetStartupLaunch()
+		{
+			RegistryKey? rk = Registry.CurrentUser.OpenSubKey("SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Run", true);
+			if (rk != null)
+			{
+				string? value = (string?)rk.GetValue(Application.ProductName);
+				if (value != null)
+					return true;
+			}
+
+			return false;
+		}
+
+		private void UpdateStartupLaunchPath()
+		{
+			RegistryKey? rk = Registry.CurrentUser.OpenSubKey("SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Run", true);
+			if (rk != null)
+			{
+				string? currentPath = (string?)rk.GetValue(Application.ProductName);
+				if (currentPath != null && currentPath != AppDomain.CurrentDomain.BaseDirectory)
+					rk?.SetValue(Application.ProductName, AppDomain.CurrentDomain.BaseDirectory);
+			}
+		}
+
+		private void Form1_Load(object sender, EventArgs e)
+		{
+
+		}
+
+		private void toolStripMenuItem_LaunchOnStartup_Click(object sender, EventArgs e)
+		{
+			SetStartupLaunch(!launchOnStartup);
+			launchOnStartup = GetStartupLaunch();
+			toolStripMenuItem_LaunchOnStartup.Checked = launchOnStartup;
 		}
 	}
 }
