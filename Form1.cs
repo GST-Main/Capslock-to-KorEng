@@ -21,6 +21,9 @@ namespace Capslock_to_KorEng
 		private bool isLShiftPressed = false;
 		private bool launchOnStartup;
 
+		private string exePath = Application.ExecutablePath;
+		private string appName = Application.ProductName;
+
 		// Send Key
 		[return: MarshalAs(UnmanagedType.Bool)]
 		[DllImport("user32.dll")]
@@ -113,9 +116,9 @@ namespace Capslock_to_KorEng
 			RegistryKey? rk = Registry.CurrentUser.OpenSubKey("SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Run", true);
 
 			if (launchOnStartup)
-				rk?.SetValue(Application.ProductName, AppDomain.CurrentDomain.BaseDirectory);
+				rk?.SetValue(appName, exePath);
 			else
-				rk?.DeleteValue(Application.ProductName, throwOnMissingValue: false);
+				rk?.DeleteValue(appName, throwOnMissingValue: false);
 		}
 
 		private bool GetStartupLaunch()
@@ -123,7 +126,7 @@ namespace Capslock_to_KorEng
 			RegistryKey? rk = Registry.CurrentUser.OpenSubKey("SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Run", true);
 			if (rk != null)
 			{
-				string? value = (string?)rk.GetValue(Application.ProductName);
+				string? value = (string?)rk.GetValue(appName);
 				if (value != null)
 					return true;
 			}
@@ -136,9 +139,9 @@ namespace Capslock_to_KorEng
 			RegistryKey? rk = Registry.CurrentUser.OpenSubKey("SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Run", true);
 			if (rk != null)
 			{
-				string? currentPath = (string?)rk.GetValue(Application.ProductName);
-				if (currentPath != null && currentPath != AppDomain.CurrentDomain.BaseDirectory)
-					rk?.SetValue(Application.ProductName, AppDomain.CurrentDomain.BaseDirectory);
+				string? currentPath = (string?)rk.GetValue(appName);
+				if (currentPath != null && currentPath != exePath)
+					rk?.SetValue(appName, exePath);
 			}
 		}
 
